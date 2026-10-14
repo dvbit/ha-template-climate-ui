@@ -1,123 +1,198 @@
-# ❄️ Template Climate
+# ❄️ Template Climate UI
 
-[![HACS Badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/integration)
-[![License](https://img.shields.io/github/license/jcwillox/hass-template-climate?style=for-the-badge)](https://github.com/jcwillox/hass-template-climate/blob/main/LICENSE)
-[![Latest Release](https://img.shields.io/github/v/release/jcwillox/hass-template-climate?style=for-the-badge)](https://github.com/jcwillox/hass-template-climate/releases)
-[![Size](https://img.badgesize.io/https:/github.com/jcwillox/hass-template-climate/releases/latest/download/climate_template.zip?style=for-the-badge)](https://github.com/jcwillox/hass-template-climate/releases)
-[![Code style](https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge)](https://github.com/psf/black)
+[![HACS Custom](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/integration)
+[![License](https://img.shields.io/github/license/dvbit/ha-template-climate-ui?style=for-the-badge)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/dvbit/ha-template-climate-ui?style=for-the-badge)](https://github.com/dvbit/ha-template-climate-ui/releases)
 
-The `climate_template` platform creates climate devices that combine integrations and provides the ability to run scripts or invoke services for each of the `set_*` commands of a climate entity.
+<img src="icon.png" alt="icon" width="96" align="right">
+
+Create **climate entities from templates and actions, entirely from the UI**.
+A fork of [jcwillox/hass-template-climate](https://github.com/jcwillox/hass-template-climate)
+with a config flow, an options flow and a live preview — no YAML.
+
+🇮🇹 [Leggi in italiano](README.it.md) · 📐 [Specification](SPEC.md)
+
+## Why
+
+- Combine sensors, switches and scripts into one thermostat card.
+- Control "dumb" devices (IR air conditioners, relays) and keep an optimistic state.
+- Home Assistant 2026.10 ships a UI template climate in core, but it only covers HVAC mode,
+  HVAC action and temperature. This integration also covers **fan, preset, swing, humidity
+  and heat/cool ranges**, with the same options as the original YAML integration.
+
+## Installation
+
+1. HACS → ⋮ → *Custom repositories* → `https://github.com/dvbit/ha-template-climate-ui`,
+   type **Integration**.
+2. Install **Template Climate UI** and restart Home Assistant.
+3. *Settings → Devices & services → Add integration → Template Climate UI*.
+
+Requires Home Assistant **2026.9.0** or newer. It can run side by side with the original
+`climate_template` YAML integration.
 
 ## Configuration
 
-All configuration variables are optional. The climate device will work in optimistic mode (assumed state) if a template isn't defined.
+One form, four sections. A preview at the bottom shows the resulting climate while you type.
 
-If you do not define a `template` or its corresponding `action` the climate device will not have that attribute, e.g. either `swing_mode_template` or `set_swing_mode` must be defined for the climate to have a swing mode.
+| Section | Content |
+|---|---|
+| *(top)* | Name, optional existing device to attach the entity to |
+| **State templates** | current/target temperature, high/low, humidity (current, target, min, max), HVAC mode, HVAC action, fan, preset, swing, min/max temperature |
+| **Actions** | `set_temperature`, `set_hvac_mode`, `set_fan_mode`, `set_preset_mode`, `set_swing_mode`, `set_humidity` |
+| **Modes and limits** | HVAC modes, fan/preset/swing lists (custom values allowed), min/max temperature, step, precision |
+| **Advanced** | availability, icon, picture, extra attributes, variables |
 
-| Name                             | Type                                                                      | Description                                                                                                                                                                                                                                                                                     | Default Value                                      |
-|----------------------------------|---------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| -------------------------------------------------- |
-| name                             | [`template`](https://www.home-assistant.io/docs/configuration/templating) | The name of the climate device.                                                                                                                                                                                                                                                                 | "Template Climate"                                 |
-| unique_id                        | `string`                                                                  | The [unique id](https://developers.home-assistant.io/docs/entity_registry_index/#unique-id) of the climate entity.                                                                                                                                                                                                                                                                 | None                                 |
-| icon                             | [`template`](https://www.home-assistant.io/docs/configuration/templating) | Defines a template for the icon of the sensor.                                                                                                                                                                                                                                                  |                                                    |
-| picture                          | [`template`](https://www.home-assistant.io/docs/configuration/templating) | Defines a template for the entity picture of the sensor.                                                                                                                                                                                                                                        |                                                    |
-| attributes                       | [`template`](https://www.home-assistant.io/docs/configuration/templating) | Defines a template for the attributes of the sensor.                                                                                                                                                                                                                                            |                                                    |
-| variables                        | [`template`](https://www.home-assistant.io/docs/configuration/templating) | Additional variables that will be available in scripts.                                                                                                                                                                                                                                         |                                                    |
-| availability                     | [`template`](https://www.home-assistant.io/docs/configuration/templating) | Defines a template to get the `available` state of the component. If the template returns `true`, the device is `available`. If the template returns any other value, the device will be `unavailable`. If `availability_template` is not configured, the component will always be `available`. | true                                               |
-|                                  |                                                                           |                                                                                                                                                                                                                                                                                                 |                                                    |
-| current_temperature_template     | [`template`](https://www.home-assistant.io/docs/configuration/templating) | Defines a template to get the current temperature.                                                                                                                                                                                                                                              |                                                    |
-| current_humidity_template        | [`template`](https://www.home-assistant.io/docs/configuration/templating) | Defines a template to get the current humidity.                                                                                                                                                                                                                                                 |                                                    |
-| min_humidity_template            | [`template`](https://www.home-assistant.io/docs/configuration/templating) | Defines a template to get the minimum target humidity.                                                                                                                                                                                                                                          |                                                    |
-| max_humidity_template            | [`template`](https://www.home-assistant.io/docs/configuration/templating) | Defines a template to get the maximum target humidity.                                                                                                                                                                                                                                          |                                                    |
-| target_humidity_template         | [`template`](https://www.home-assistant.io/docs/configuration/templating) | Defines a template to get the target humidity.                                                                                                                                                                                                                                                  |                                                    |
-| target_temperature_template      | [`template`](https://www.home-assistant.io/docs/configuration/templating) | Defines a template to get the target temperature of the climate device.                                                                                                                                                                                                                         |                                                    |
-| target_temperature_high_template | [`template`](https://www.home-assistant.io/docs/configuration/templating) | Defines a template to get the target temperature high of the climate device.                                                                                                                                                                                                                    |                                                    |
-| target_temperature_low_template  | [`template`](https://www.home-assistant.io/docs/configuration/templating) | Defines a template to get the target temperature low of the climate device.                                                                                                                                                                                                                     |                                                    |
-| hvac_mode_template               | [`template`](https://www.home-assistant.io/docs/configuration/templating) | Defines a template to get the hvac mode of the climate device.                                                                                                                                                                                                                                  |                                                    |
-| fan_mode_template                | [`template`](https://www.home-assistant.io/docs/configuration/templating) | Defines a template to get the fan mode of the climate device.                                                                                                                                                                                                                                   |                                                    |
-| preset_mode_template             | [`template`](https://www.home-assistant.io/docs/configuration/templating) | Defines a template to get the preset mode of the climate device.                                                                                                                                                                                                                                |                                                    |
-| swing_mode_template              | [`template`](https://www.home-assistant.io/docs/configuration/templating) | Defines a template to get the swing mode of the climate device.                                                                                                                                                                                                                                 |                                                    |
-| hvac_action_template             | [`template`](https://www.home-assistant.io/docs/configuration/templating) | Defines a template to get the [`hvac action`](https://developers.home-assistant.io/docs/core/entity/climate/#hvac-action) of the climate device.                                                                                                                                                |                                                    |
-|                                  |                                                                           |                                                                                                                                                                                                                                                                                                 |                                                    |
-| set_humidity                     | [`action`](https://www.home-assistant.io/docs/scripts)                    | Defines an action to run when the climate device is given the set humidity command. Can use `humidity` variable.                                                                                                                                                                                |                                                    |
-| set_temperature                  | [`action`](https://www.home-assistant.io/docs/scripts)                    | Defines an action to run when the climate device is given the set temperature command. Can use `temperature`, `target_temp_high`, `target_temp_low` and `hvac_mode` variables.                                                                                                                  |                                                    |
-| set_hvac_mode                    | [`action`](https://www.home-assistant.io/docs/scripts)                    | Defines an action to run when the climate device is given the set hvac mode command. Can use `hvac_mode` variable.                                                                                                                                                                              |                                                    |
-| set_fan_mode                     | [`action`](https://www.home-assistant.io/docs/scripts)                    | Defines an action to run when the climate device is given the set fan mode command. Can use `fan_mode` variable.                                                                                                                                                                                |                                                    |
-| set_preset_mode                  | [`action`](https://www.home-assistant.io/docs/scripts)                    | Defines an action to run when the climate device is given the set preset mode command. Can use `preset_mode` variable.                                                                                                                                                                          |                                                    |
-| set_swing_mode                   | [`action`](https://www.home-assistant.io/docs/scripts)                    | Defines an action to run when the climate device is given the set swing mode command. Can use `swing_mode` variable.                                                                                                                                                                            |                                                    |
-|                                  |                                                                           |                                                                                                                                                                                                                                                                                                 |                                                    |
-| modes                            | `list`                                                                    | A list of supported hvac modes. Needs to be a subset of the default values.                                                                                                                                                                                                                     | ["auto", "off", "cool", "heat", "dry", "fan_only"] |
-| fan_modes                        | `list`                                                                    | A list of supported fan modes.                                                                                                                                                                                                                                                                  | ["auto", "low", "medium", "high"]                  |
-| preset_modes                     | `list`                                                                    | A list of supported preset modes.                                                                                                                                                                                                                                                               | ["activity", "away", "boost", "comfort", "eco", "home", "sleep"] |
-| swing_modes                      | `list`                                                                    | A list of supported swing modes.                                                                                                                                                                                                                                                                | ["on", "off"]                                      |
-|                                  |                                                                           |                                                                                                                                                                                                                                                                                                 |                                                    |
-| min_temp                         | `float`                                                                   | Minimum set point available.                                                                                                                                                                                                                                                                    | 7                                                  |
-| min_temp_template                | [`template`](https://www.home-assistant.io/docs/configuration/templating) | Defines a template to get the minimum set point available. Overrides value specified by `min_temp`.                                                                                                                                                                                             |                                                    |
-| max_temp                         | `float`                                                                   | Maximum set point available.                                                                                                                                                                                                                                                                    | 35                                                 |
-| max_temp_template                | [`template`](https://www.home-assistant.io/docs/configuration/templating) | Defines a template to get the maximum set point available. Overrides value specified by `max_temp`.                                                                                                                                                                                             |                                                    |
-| precision                        | `float`                                                                   | The desired precision for this device.                                                                                                                                                                                                                                                          | 0.1 for Celsius and 1.0 for Fahrenheit.            |
-| temp_step                        | `float`                                                                   | Step size for temperature set point.                                                                                                                                                                                                                                                            | 1                                                  |
+Rules (same as the original integration):
 
-## Example Configuration
+- Anything left empty works in **optimistic mode**: the entity remembers what you set.
+- A feature (fan, preset, swing, target humidity, target temperature) appears only if
+  **its template or its action** is set.
+- `unknown`/`unavailable` template results are ignored; invalid values are logged and skipped.
+- In `heat_cool` the card shows a low/high range instead of a single target.
 
-```yaml
-climate:
-  - platform: climate_template
-    name: Bedroom Aircon
-    modes:
-      - "auto"
-      - "dry"
-      - "off"
-      - "cool"
-      - "fan_only"
-    min_temp: 16
-    max_temp: 30
+Variables available in actions:
 
-    # get current temp.
-    current_temperature_template: "{{ states('sensor.bedroom_temperature') }}"
+| Action | Variables |
+|---|---|
+| `set_temperature` | `temperature`, `target_temp_high`, `target_temp_low`, `hvac_mode` |
+| `set_hvac_mode` | `hvac_mode` |
+| `set_fan_mode` | `fan_mode` |
+| `set_preset_mode` | `preset_mode` |
+| `set_swing_mode` | `swing_mode` |
+| `set_humidity` | `humidity` |
 
-    # get current humidity.
-    current_humidity_template: "{{ states('sensor.bedroom_humidity') }}"
+`this` (the entity state) and the **Advanced → Variables** are available in every template and action.
 
-    # swing mode switch for UI.
-    swing_mode_template: "{{ states('input_boolean.bedroom_swing_mode') }}"
+Everything can be changed later from **Configure** on the integration entry; the entity reloads.
 
-    # available based on esphome nodes' availability.
-    availability_template: "{{ is_state('binary_sensor.bedroom_node_status', 'on') }}"
+## Examples
 
-    # example action
-    set_hvac_mode:
-      # allows me to disable sending commands to aircon via UI.
-      - condition: state
-        entity_id: input_boolean.enable_aircon_controller
-        state: "on"
+### 1. IR air conditioner (Broadlink) with a room sensor
 
-      # send the climates current state to esphome.
-      - service: esphome.bedroom_node_aircon_state
-        data:
-          temperature: "{{ state_attr('climate.bedroom_aircon', 'temperature') | int }}"
-          operation_mode: "{{ states('climate.bedroom_aircon') }}"
-          fan_mode: "{{ state_attr('climate.bedroom_aircon', 'fan_mode') }}"
-          swing_mode: "{{ is_state_attr('climate.bedroom_aircon', 'swing_mode', 'on') }}"
-          light: "{{ is_state('light.bedroom_aircon_light', 'on') }}"
+**State templates**
 
-      # could also send IR command via broadlink service calls etc.
-```
+| Field | Value |
+|---|---|
+| Current temperature | `{{ states('sensor.bedroom_temperature') }}` |
+| Current humidity | `{{ states('sensor.bedroom_humidity') }}` |
 
-### Example action to control existing Home Assistant devices
+Leave HVAC mode, fan and target temperature empty: they stay optimistic.
+
+**Actions → Set HVAC mode** (YAML mode of the action editor):
 
 ```yaml
-climate:
-  - platform: climate_template
-    # ...
-    set_hvac_mode:
-      # allows you to control an existing Home Assistant HVAC device
-      - service: climate.set_hvac_mode
-        data:
-          entity_id: climate.bedroom_ac_nottemplate
-          hvac_mode: "{{ states('climate.bedroom_ac_template') }}"
+- action: remote.send_command
+  target:
+    entity_id: remote.bedroom_broadlink
+  data:
+    device: aircon
+    command: "{{ hvac_mode }}"
 ```
 
-### Use Cases
+**Actions → Set temperature**:
 
-- Merge multiple components into one climate device (just like any template platform).
-- Control optimistic climate devices such as IR aircons via service calls.
+```yaml
+- action: remote.send_command
+  target:
+    entity_id: remote.bedroom_broadlink
+  data:
+    device: aircon
+    command: "{{ 'temp_' ~ (temperature | int) }}"
+```
+
+**Modes and limits**: HVAC modes `off, cool, heat, dry, fan_only`, min 16, max 30, step 1.
+
+### 2. Merge an existing thermostat with an external sensor
+
+| Field | Value |
+|---|---|
+| Current temperature | `{{ states('sensor.living_room_accurate_temp') }}` |
+| HVAC mode | `{{ states('climate.living_trv') }}` |
+| Target temperature | `{{ state_attr('climate.living_trv', 'temperature') }}` |
+| HVAC action | `{{ state_attr('climate.living_trv', 'hvac_action') }}` |
+
+**Set HVAC mode**:
+
+```yaml
+- action: climate.set_hvac_mode
+  target:
+    entity_id: climate.living_trv
+  data:
+    hvac_mode: "{{ hvac_mode }}"
+```
+
+**Set temperature**:
+
+```yaml
+- action: climate.set_temperature
+  target:
+    entity_id: climate.living_trv
+  data:
+    temperature: "{{ temperature }}"
+```
+
+### 3. ESPHome node with availability and a safety switch
+
+**Advanced → Availability**: `{{ is_state('binary_sensor.bedroom_node_status', 'on') }}`
+
+**Advanced → Variables** (YAML):
+
+```yaml
+node: bedroom_node
+```
+
+**Set HVAC mode**:
+
+```yaml
+- condition: state
+  entity_id: input_boolean.enable_aircon_controller
+  state: "on"
+- action: "esphome.{{ node }}_aircon_state"
+  data:
+    operation_mode: "{{ hvac_mode }}"
+    temperature: "{{ state_attr(this.entity_id, 'temperature') | int(0) }}"
+    fan_mode: "{{ state_attr(this.entity_id, 'fan_mode') }}"
+```
+
+### 4. Using the entity in an automation
+
+```yaml
+automation:
+  - alias: "Bedroom: cool down at night"
+    triggers:
+      - trigger: time
+        at: "22:30:00"
+    actions:
+      - action: climate.set_temperature
+        target:
+          entity_id: climate.bedroom_aircon
+        data:
+          hvac_mode: cool
+          temperature: 24
+```
+
+## Migrating from the YAML integration
+
+Option names are unchanged. Copy each `*_template` into the matching field of **State
+templates**, each `set_*` into **Actions**, `modes`/`fan_modes`/`preset_modes`/`swing_modes`,
+`min_temp`, `max_temp`, `temp_step`, `precision` into **Modes and limits**, and
+`availability_template`/`icon_template`/`entity_picture_template`/`attributes`/`variables`
+into **Advanced**. Then remove the YAML entry and restart.
+
+## Logging
+
+```yaml
+logger:
+  logs:
+    custom_components.climate_template_ui: debug
+```
+
+- **DEBUG**: every template result, restore, preview start.
+- **INFO**: entity ready, action executed, entry created/updated.
+- **WARNING**: template failed, value rejected, form validation errors.
+- **ERROR**: stored configuration no longer valid, action failed.
+
+## Credits
+
+Original work by [Joshua Cowie-Willox](https://github.com/jcwillox) — MIT licence.
+UI configuration fork by [@dvbit](https://github.com/dvbit).

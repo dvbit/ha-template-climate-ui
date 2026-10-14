@@ -1,0 +1,259 @@
+{
+  "title": "Template Climate UI",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Nuovo clima template",
+        "description": "Crea un'entità clima da template (stato) e azioni (comandi). Ciò che resta vuoto funziona in modalità ottimistica. Una funzione (ventola, preset, swing, umidità, temperatura obiettivo) compare solo se è impostato il suo template o la sua azione.",
+        "data": {
+          "name": "Nome",
+          "device_id": "Dispositivo"
+        },
+        "data_description": {
+          "device_id": "Dispositivo esistente (opzionale) sotto cui mostrare l'entità."
+        },
+        "sections": {
+          "state_templates": {
+            "name": "Template di stato",
+            "description": "Template che leggono lo stato attuale. I risultati 'unknown' e 'unavailable' vengono ignorati.",
+            "data": {
+              "current_temperature_template": "Temperatura attuale",
+              "current_humidity_template": "Umidità attuale",
+              "target_temperature_template": "Temperatura obiettivo",
+              "target_temperature_high_template": "Temperatura obiettivo massima",
+              "target_temperature_low_template": "Temperatura obiettivo minima",
+              "target_humidity_template": "Umidità obiettivo",
+              "min_humidity_template": "Umidità minima",
+              "max_humidity_template": "Umidità massima",
+              "hvac_mode_template": "Modalità HVAC",
+              "hvac_action_template": "Azione HVAC",
+              "fan_mode_template": "Modalità ventola",
+              "preset_mode_template": "Preset",
+              "swing_mode_template": "Modalità swing",
+              "min_temp_template": "Temperatura minima",
+              "max_temp_template": "Temperatura massima"
+            },
+            "data_description": {
+              "hvac_mode_template": "Deve restituire una delle modalità HVAC selezionate.",
+              "hvac_action_template": "Uno tra: off, heating, cooling, drying, idle, fan, preheating, defrosting.",
+              "min_temp_template": "Sostituisce il valore statico in Modi e limiti.",
+              "max_temp_template": "Sostituisce il valore statico in Modi e limiti."
+            }
+          },
+          "actions": {
+            "name": "Azioni",
+            "description": "Eseguite quando il clima riceve il comando corrispondente. La variabile `this` e le variabili avanzate sono sempre disponibili.",
+            "data": {
+              "set_temperature": "Imposta temperatura",
+              "set_hvac_mode": "Imposta modalità HVAC",
+              "set_fan_mode": "Imposta modalità ventola",
+              "set_preset_mode": "Imposta preset",
+              "set_swing_mode": "Imposta modalità swing",
+              "set_humidity": "Imposta umidità"
+            },
+            "data_description": {
+              "set_temperature": "Variabili: temperature, target_temp_high, target_temp_low, hvac_mode.",
+              "set_hvac_mode": "Variabile: hvac_mode.",
+              "set_fan_mode": "Variabile: fan_mode.",
+              "set_preset_mode": "Variabile: preset_mode.",
+              "set_swing_mode": "Variabile: swing_mode.",
+              "set_humidity": "Variabile: humidity."
+            }
+          },
+          "modes_limits": {
+            "name": "Modi e limiti",
+            "description": "Modi selezionabili e limiti di temperatura. Le liste ventola, preset e swing accettano valori personalizzati.",
+            "data": {
+              "modes": "Modalità HVAC",
+              "fan_modes": "Modalità ventola",
+              "preset_modes": "Preset",
+              "swing_modes": "Modalità swing",
+              "min_temp": "Temperatura minima",
+              "max_temp": "Temperatura massima",
+              "temp_step": "Passo temperatura",
+              "precision": "Precisione"
+            },
+            "data_description": {
+              "precision": "Precisione di visualizzazione. Vuoto: 0,1 per °C, 1 per °F."
+            }
+          },
+          "advanced": {
+            "name": "Avanzate",
+            "description": "Disponibilità, icona, immagine, attributi aggiuntivi e variabili.",
+            "data": {
+              "availability": "Disponibilità",
+              "icon": "Icona",
+              "picture": "Immagine",
+              "attributes": "Attributi",
+              "variables": "Variabili"
+            },
+            "data_description": {
+              "availability": "L'entità è disponibile solo quando questo template restituisce true.",
+              "attributes": "Attributi aggiuntivi: nome → template.",
+              "variables": "Variabili disponibili in template e azioni: nome → valore o template."
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "invalid_template": "Template non valido in {field}: {error}",
+      "invalid_action": "Azione non valida in {field}: {error}",
+      "no_hvac_modes": "Seleziona almeno una modalità HVAC.",
+      "invalid_hvac_mode": "Modalità HVAC non valida: {error}",
+      "empty_mode_list": "{field} non può essere vuota se il suo template o la sua azione sono impostati.",
+      "min_max_temp": "La temperatura minima deve essere inferiore alla massima ({error}).",
+      "invalid_attributes": "Gli attributi devono essere una mappa nome → template.",
+      "invalid_variables": "Variabili non valide: {error}"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Modifica clima template",
+        "description": "Crea un'entità clima da template (stato) e azioni (comandi). Ciò che resta vuoto funziona in modalità ottimistica. Una funzione (ventola, preset, swing, umidità, temperatura obiettivo) compare solo se è impostato il suo template o la sua azione.",
+        "data": {
+          "device_id": "Dispositivo"
+        },
+        "data_description": {
+          "device_id": "Dispositivo esistente (opzionale) sotto cui mostrare l'entità."
+        },
+        "sections": {
+          "state_templates": {
+            "name": "Template di stato",
+            "description": "Template che leggono lo stato attuale. I risultati 'unknown' e 'unavailable' vengono ignorati.",
+            "data": {
+              "current_temperature_template": "Temperatura attuale",
+              "current_humidity_template": "Umidità attuale",
+              "target_temperature_template": "Temperatura obiettivo",
+              "target_temperature_high_template": "Temperatura obiettivo massima",
+              "target_temperature_low_template": "Temperatura obiettivo minima",
+              "target_humidity_template": "Umidità obiettivo",
+              "min_humidity_template": "Umidità minima",
+              "max_humidity_template": "Umidità massima",
+              "hvac_mode_template": "Modalità HVAC",
+              "hvac_action_template": "Azione HVAC",
+              "fan_mode_template": "Modalità ventola",
+              "preset_mode_template": "Preset",
+              "swing_mode_template": "Modalità swing",
+              "min_temp_template": "Temperatura minima",
+              "max_temp_template": "Temperatura massima"
+            },
+            "data_description": {
+              "hvac_mode_template": "Deve restituire una delle modalità HVAC selezionate.",
+              "hvac_action_template": "Uno tra: off, heating, cooling, drying, idle, fan, preheating, defrosting.",
+              "min_temp_template": "Sostituisce il valore statico in Modi e limiti.",
+              "max_temp_template": "Sostituisce il valore statico in Modi e limiti."
+            }
+          },
+          "actions": {
+            "name": "Azioni",
+            "description": "Eseguite quando il clima riceve il comando corrispondente. La variabile `this` e le variabili avanzate sono sempre disponibili.",
+            "data": {
+              "set_temperature": "Imposta temperatura",
+              "set_hvac_mode": "Imposta modalità HVAC",
+              "set_fan_mode": "Imposta modalità ventola",
+              "set_preset_mode": "Imposta preset",
+              "set_swing_mode": "Imposta modalità swing",
+              "set_humidity": "Imposta umidità"
+            },
+            "data_description": {
+              "set_temperature": "Variabili: temperature, target_temp_high, target_temp_low, hvac_mode.",
+              "set_hvac_mode": "Variabile: hvac_mode.",
+              "set_fan_mode": "Variabile: fan_mode.",
+              "set_preset_mode": "Variabile: preset_mode.",
+              "set_swing_mode": "Variabile: swing_mode.",
+              "set_humidity": "Variabile: humidity."
+            }
+          },
+          "modes_limits": {
+            "name": "Modi e limiti",
+            "description": "Modi selezionabili e limiti di temperatura. Le liste ventola, preset e swing accettano valori personalizzati.",
+            "data": {
+              "modes": "Modalità HVAC",
+              "fan_modes": "Modalità ventola",
+              "preset_modes": "Preset",
+              "swing_modes": "Modalità swing",
+              "min_temp": "Temperatura minima",
+              "max_temp": "Temperatura massima",
+              "temp_step": "Passo temperatura",
+              "precision": "Precisione"
+            },
+            "data_description": {
+              "precision": "Precisione di visualizzazione. Vuoto: 0,1 per °C, 1 per °F."
+            }
+          },
+          "advanced": {
+            "name": "Avanzate",
+            "description": "Disponibilità, icona, immagine, attributi aggiuntivi e variabili.",
+            "data": {
+              "availability": "Disponibilità",
+              "icon": "Icona",
+              "picture": "Immagine",
+              "attributes": "Attributi",
+              "variables": "Variabili"
+            },
+            "data_description": {
+              "availability": "L'entità è disponibile solo quando questo template restituisce true.",
+              "attributes": "Attributi aggiuntivi: nome → template.",
+              "variables": "Variabili disponibili in template e azioni: nome → valore o template."
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "invalid_template": "Template non valido in {field}: {error}",
+      "invalid_action": "Azione non valida in {field}: {error}",
+      "no_hvac_modes": "Seleziona almeno una modalità HVAC.",
+      "invalid_hvac_mode": "Modalità HVAC non valida: {error}",
+      "empty_mode_list": "{field} non può essere vuota se il suo template o la sua azione sono impostati.",
+      "min_max_temp": "La temperatura minima deve essere inferiore alla massima ({error}).",
+      "invalid_attributes": "Gli attributi devono essere una mappa nome → template.",
+      "invalid_variables": "Variabili non valide: {error}"
+    }
+  },
+  "selector": {
+    "hvac_mode": {
+      "options": {
+        "off": "Spento",
+        "heat": "Riscaldamento",
+        "cool": "Raffrescamento",
+        "heat_cool": "Caldo/Freddo",
+        "auto": "Automatico",
+        "dry": "Deumidificazione",
+        "fan_only": "Solo ventola"
+      }
+    },
+    "fan_mode": {
+      "options": {
+        "auto": "Automatica",
+        "low": "Bassa",
+        "medium": "Media",
+        "high": "Alta"
+      }
+    },
+    "preset_mode": {
+      "options": {
+        "eco": "Eco",
+        "away": "Fuori casa",
+        "boost": "Boost",
+        "comfort": "Comfort",
+        "home": "In casa",
+        "sleep": "Notte",
+        "activity": "Attività"
+      }
+    },
+    "swing_mode": {
+      "options": {
+        "on": "Acceso",
+        "off": "Spento"
+      }
+    }
+  },
+  "exceptions": {
+    "invalid_config": {
+      "message": "Configurazione non valida per {name}: {error}. Correggila dalle opzioni."
+    }
+  }
+}

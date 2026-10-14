@@ -1,0 +1,259 @@
+{
+  "title": "Template Climate UI",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Nouveau climat template",
+        "description": "Crée une entité climat à partir de modèles (état) et d'actions (commandes). Ce qui reste vide fonctionne en mode optimiste. Une fonction (ventilation, préréglage, oscillation, humidité, température cible) n'apparaît que si son modèle ou son action est défini.",
+        "data": {
+          "name": "Nom",
+          "device_id": "Appareil"
+        },
+        "data_description": {
+          "device_id": "Appareil existant (facultatif) sous lequel afficher l'entité."
+        },
+        "sections": {
+          "state_templates": {
+            "name": "Modèles d'état",
+            "description": "Modèles qui lisent l'état actuel. Les résultats « unknown » et « unavailable » sont ignorés.",
+            "data": {
+              "current_temperature_template": "Température actuelle",
+              "current_humidity_template": "Humidité actuelle",
+              "target_temperature_template": "Température cible",
+              "target_temperature_high_template": "Température cible haute",
+              "target_temperature_low_template": "Température cible basse",
+              "target_humidity_template": "Humidité cible",
+              "min_humidity_template": "Humidité minimale",
+              "max_humidity_template": "Humidité maximale",
+              "hvac_mode_template": "Mode CVC",
+              "hvac_action_template": "Action CVC",
+              "fan_mode_template": "Mode de ventilation",
+              "preset_mode_template": "Préréglage",
+              "swing_mode_template": "Mode d'oscillation",
+              "min_temp_template": "Température minimale",
+              "max_temp_template": "Température maximale"
+            },
+            "data_description": {
+              "hvac_mode_template": "Doit renvoyer l'un des modes CVC sélectionnés.",
+              "hvac_action_template": "L'une de : off, heating, cooling, drying, idle, fan, preheating, defrosting.",
+              "min_temp_template": "Remplace la valeur fixe de Modes et limites.",
+              "max_temp_template": "Remplace la valeur fixe de Modes et limites."
+            }
+          },
+          "actions": {
+            "name": "Actions",
+            "description": "Exécutées quand le climat reçoit la commande correspondante. La variable `this` et les variables avancées sont toujours disponibles.",
+            "data": {
+              "set_temperature": "Régler la température",
+              "set_hvac_mode": "Régler le mode CVC",
+              "set_fan_mode": "Régler la ventilation",
+              "set_preset_mode": "Régler le préréglage",
+              "set_swing_mode": "Régler l'oscillation",
+              "set_humidity": "Régler l'humidité"
+            },
+            "data_description": {
+              "set_temperature": "Variables : temperature, target_temp_high, target_temp_low, hvac_mode.",
+              "set_hvac_mode": "Variable : hvac_mode.",
+              "set_fan_mode": "Variable : fan_mode.",
+              "set_preset_mode": "Variable : preset_mode.",
+              "set_swing_mode": "Variable : swing_mode.",
+              "set_humidity": "Variable : humidity."
+            }
+          },
+          "modes_limits": {
+            "name": "Modes et limites",
+            "description": "Modes sélectionnables et limites de température. Les listes ventilation, préréglage et oscillation acceptent des valeurs personnalisées.",
+            "data": {
+              "modes": "Modes CVC",
+              "fan_modes": "Modes de ventilation",
+              "preset_modes": "Préréglages",
+              "swing_modes": "Modes d'oscillation",
+              "min_temp": "Température minimale",
+              "max_temp": "Température maximale",
+              "temp_step": "Pas de température",
+              "precision": "Précision"
+            },
+            "data_description": {
+              "precision": "Précision d'affichage. Vide : 0,1 pour °C, 1 pour °F."
+            }
+          },
+          "advanced": {
+            "name": "Avancé",
+            "description": "Disponibilité, icône, image, attributs supplémentaires et variables.",
+            "data": {
+              "availability": "Disponibilité",
+              "icon": "Icône",
+              "picture": "Image",
+              "attributes": "Attributs",
+              "variables": "Variables"
+            },
+            "data_description": {
+              "availability": "L'entité n'est disponible que si ce modèle renvoie true.",
+              "attributes": "Attributs supplémentaires : nom → modèle.",
+              "variables": "Variables disponibles dans les modèles et actions : nom → valeur ou modèle."
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "invalid_template": "Modèle invalide dans {field} : {error}",
+      "invalid_action": "Action invalide dans {field} : {error}",
+      "no_hvac_modes": "Sélectionnez au moins un mode CVC.",
+      "invalid_hvac_mode": "Mode CVC invalide : {error}",
+      "empty_mode_list": "{field} ne peut pas être vide si son modèle ou son action est défini.",
+      "min_max_temp": "La température minimale doit être inférieure à la maximale ({error}).",
+      "invalid_attributes": "Les attributs doivent être une table nom → modèle.",
+      "invalid_variables": "Variables invalides : {error}"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Modifier le climat template",
+        "description": "Crée une entité climat à partir de modèles (état) et d'actions (commandes). Ce qui reste vide fonctionne en mode optimiste. Une fonction (ventilation, préréglage, oscillation, humidité, température cible) n'apparaît que si son modèle ou son action est défini.",
+        "data": {
+          "device_id": "Appareil"
+        },
+        "data_description": {
+          "device_id": "Appareil existant (facultatif) sous lequel afficher l'entité."
+        },
+        "sections": {
+          "state_templates": {
+            "name": "Modèles d'état",
+            "description": "Modèles qui lisent l'état actuel. Les résultats « unknown » et « unavailable » sont ignorés.",
+            "data": {
+              "current_temperature_template": "Température actuelle",
+              "current_humidity_template": "Humidité actuelle",
+              "target_temperature_template": "Température cible",
+              "target_temperature_high_template": "Température cible haute",
+              "target_temperature_low_template": "Température cible basse",
+              "target_humidity_template": "Humidité cible",
+              "min_humidity_template": "Humidité minimale",
+              "max_humidity_template": "Humidité maximale",
+              "hvac_mode_template": "Mode CVC",
+              "hvac_action_template": "Action CVC",
+              "fan_mode_template": "Mode de ventilation",
+              "preset_mode_template": "Préréglage",
+              "swing_mode_template": "Mode d'oscillation",
+              "min_temp_template": "Température minimale",
+              "max_temp_template": "Température maximale"
+            },
+            "data_description": {
+              "hvac_mode_template": "Doit renvoyer l'un des modes CVC sélectionnés.",
+              "hvac_action_template": "L'une de : off, heating, cooling, drying, idle, fan, preheating, defrosting.",
+              "min_temp_template": "Remplace la valeur fixe de Modes et limites.",
+              "max_temp_template": "Remplace la valeur fixe de Modes et limites."
+            }
+          },
+          "actions": {
+            "name": "Actions",
+            "description": "Exécutées quand le climat reçoit la commande correspondante. La variable `this` et les variables avancées sont toujours disponibles.",
+            "data": {
+              "set_temperature": "Régler la température",
+              "set_hvac_mode": "Régler le mode CVC",
+              "set_fan_mode": "Régler la ventilation",
+              "set_preset_mode": "Régler le préréglage",
+              "set_swing_mode": "Régler l'oscillation",
+              "set_humidity": "Régler l'humidité"
+            },
+            "data_description": {
+              "set_temperature": "Variables : temperature, target_temp_high, target_temp_low, hvac_mode.",
+              "set_hvac_mode": "Variable : hvac_mode.",
+              "set_fan_mode": "Variable : fan_mode.",
+              "set_preset_mode": "Variable : preset_mode.",
+              "set_swing_mode": "Variable : swing_mode.",
+              "set_humidity": "Variable : humidity."
+            }
+          },
+          "modes_limits": {
+            "name": "Modes et limites",
+            "description": "Modes sélectionnables et limites de température. Les listes ventilation, préréglage et oscillation acceptent des valeurs personnalisées.",
+            "data": {
+              "modes": "Modes CVC",
+              "fan_modes": "Modes de ventilation",
+              "preset_modes": "Préréglages",
+              "swing_modes": "Modes d'oscillation",
+              "min_temp": "Température minimale",
+              "max_temp": "Température maximale",
+              "temp_step": "Pas de température",
+              "precision": "Précision"
+            },
+            "data_description": {
+              "precision": "Précision d'affichage. Vide : 0,1 pour °C, 1 pour °F."
+            }
+          },
+          "advanced": {
+            "name": "Avancé",
+            "description": "Disponibilité, icône, image, attributs supplémentaires et variables.",
+            "data": {
+              "availability": "Disponibilité",
+              "icon": "Icône",
+              "picture": "Image",
+              "attributes": "Attributs",
+              "variables": "Variables"
+            },
+            "data_description": {
+              "availability": "L'entité n'est disponible que si ce modèle renvoie true.",
+              "attributes": "Attributs supplémentaires : nom → modèle.",
+              "variables": "Variables disponibles dans les modèles et actions : nom → valeur ou modèle."
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "invalid_template": "Modèle invalide dans {field} : {error}",
+      "invalid_action": "Action invalide dans {field} : {error}",
+      "no_hvac_modes": "Sélectionnez au moins un mode CVC.",
+      "invalid_hvac_mode": "Mode CVC invalide : {error}",
+      "empty_mode_list": "{field} ne peut pas être vide si son modèle ou son action est défini.",
+      "min_max_temp": "La température minimale doit être inférieure à la maximale ({error}).",
+      "invalid_attributes": "Les attributs doivent être une table nom → modèle.",
+      "invalid_variables": "Variables invalides : {error}"
+    }
+  },
+  "selector": {
+    "hvac_mode": {
+      "options": {
+        "off": "Arrêt",
+        "heat": "Chauffage",
+        "cool": "Refroidissement",
+        "heat_cool": "Chaud/Froid",
+        "auto": "Automatique",
+        "dry": "Déshumidification",
+        "fan_only": "Ventilation seule"
+      }
+    },
+    "fan_mode": {
+      "options": {
+        "auto": "Automatique",
+        "low": "Basse",
+        "medium": "Moyenne",
+        "high": "Haute"
+      }
+    },
+    "preset_mode": {
+      "options": {
+        "eco": "Éco",
+        "away": "Absent",
+        "boost": "Boost",
+        "comfort": "Confort",
+        "home": "Maison",
+        "sleep": "Nuit",
+        "activity": "Activité"
+      }
+    },
+    "swing_mode": {
+      "options": {
+        "on": "Activé",
+        "off": "Désactivé"
+      }
+    }
+  },
+  "exceptions": {
+    "invalid_config": {
+      "message": "Configuration invalide pour {name} : {error}. Corrigez-la dans les options."
+    }
+  }
+}

@@ -1,10 +1,27 @@
 [project]
-name = "hass-template-climate"
-version = "0.0.0"
-description = ""
+name = "ha-template-climate-ui"
+version = "2.0.0"
+description = "Template climate entities configured from the Home Assistant UI"
 readme = "README.md"
-requires-python = ">=3.13.2"
-dependencies = [
-    "colorlog>=6.9.0",
-    "homeassistant>=2025.8.0b0"
-]
+requires-python = ">=3.13"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "D"]
+ignore = ["D203", "D213", "D105", "D107"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D103"]
+"custom_components/climate_template_ui/climate.py" = ["D102"]
+
+[tool.ruff.lint.isort]
+force-sort-within-sections = true
+known-first-party = ["custom_components"]
+combine-as-imports = true
